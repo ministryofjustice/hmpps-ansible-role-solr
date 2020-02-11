@@ -1,11 +1,8 @@
 ---
 # defaults file for ansible-role-solr
 
-solr_version: 8.4.1
+solr_version: 6.0.0
 solr_use_java_version_8: true
-
-solr_url: https://archive.apache.org/dist/lucene/solr
-solr_distr_url: '{{ solr_url }}/{{ solr_version }}/solr-{{ solr_version }}.tgz'
 
 solr_host: '{{ ansible_fqdn }}'
 
@@ -30,8 +27,9 @@ solr_user: solr
 solr_group: solr
 solr_port: 8983
 solr_service_name: solr
-solr_base_path: /var/solr
-solr_home: '{{ solr_base_path }}/data'
+solr_base_path: /opt/solr/alfresco-search-services
+solr_home_base: '{{ solr_base_path }}/data'
+solr_home: '{{ solr_home_base }}/solrhome'
 solr_with_systemd: true
 solr_logs_dir: '{{ solr_base_path }}/logs'
 solr_wait_for_zk: 30
@@ -42,36 +40,24 @@ solr_service_restart: always
 solr_service_start: true
 solr_service_autostart: true
 
-solr_copy_default_configsets: false
+remote_src_copy: false
 
 # Linux limits set
 solr_set_limits: true
 solr_open_files_limit: 65000
 solr_max_processes_limit: 65000
 
-# SSL
-#solr_ssl_key_store_path: '{{ default_solr_ssl_key_store_path }}'
-solr_ssl_key_store_path: '{{ solr_dest_path }}/server/solr'
-solr_ssl_key_store: '{{ solr_ssl_key_store_path }}/{{ solr_ssl_key_store_name }}'
-solr_ssl_trust_store: '{{ solr_ssl_key_store_path }}/{{ solr_ssl_key_store_name }}'
-local_cert_file_path: '{{ default_local_cert_file_path }}'
-local_pkey_file_path: '{{ default_local_pkey_file_path }}'
-solr_local_keystore: true
-solr_local_keystore_path: '{{ role_path }}/files/{{ solr_ssl_key_store_name }}'
-solr_ssl_configure: true
-solr_ssl_key_store_name: solr-ssl.keystore.jks
-solr_ssl_key_size: 4096
-solr_ssl_key_store_password: 123456
-solr_ssl_trust_store_password: 123456
-solr_ssl_need_client_auth: 'false'
-solr_ssl_want_client_auth: 'false'
-solr_ssl_key_store_type: JKS
-solr_ssl_trust_store_type: JKS
-solr_ssl_check_peer_name: 'true'
-# https://docs.ansible.com/ansible/latest/openssl_certificate_module.html
-solr_ssl_certificate_provider: selfsigned
+alfresco_host: localhost
+alfresco_port: 8080
+solrcore_properties_file: '{{ solr_home }}/templates/rerank/conf/solrcore.properties'
 
-# Certificate
-solr_ca_domain: app.local
-solr_local_pkey_file_name: '{{ ansible_hostname }}.ca-pkey.pem'
-solr_local_cert_file_name: '{{ ansible_hostname }}.ca-cert.pem'
+# ebs 
+manage_storage: true
+region: eu-west-2
+solr_volume_name: test-ansible-role-solr
+solr_device_name: /dev/xvdc
+solr_volume_fs_type: xfs
+solr_backups_enabled: false
+solr_backups_bucket: "test"
+solr_backups_script_name: /root/solr_backup.sh
+solr_backups_cron_hour: 4

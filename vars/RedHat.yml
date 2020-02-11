@@ -6,8 +6,7 @@ requirements:
   - rsync
   - libselinux-python
   - java-1.8.0-openjdk
+  - lsof
+  - jq
 
 default_solr_dest_main_path: /opt
-# SSL
-default_local_cert_file_path: /etc/pki/tls/certs
-default_local_pkey_file_path: /etc/pki/tls/private

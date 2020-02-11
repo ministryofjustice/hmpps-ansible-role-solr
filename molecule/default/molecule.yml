@@ -23,6 +23,7 @@ provisioner:
     name: ansible-lint
 verifier:
   name: testinfra
+  directory: ../resources/tests
   options:
     v: true
     sudo: true
