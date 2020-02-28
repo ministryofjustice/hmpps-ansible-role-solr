@@ -1,0 +1,29 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: ec2
+lint:
+  name: yamllint
+platforms:
+  - name: instance
+    image_owner: 895523100917
+    image_name: "HMPPS Alfresco *"
+    instance_type: t2.medium
+    vpc_subnet_id: subnet-043763902fc8ac91c
+    instance_profile_name: "tf-eu-west-2-hmpps-eng-dev-jenkins-ec2-slave-role-instance-profile"
+    instance_tags:
+      destroy: true
+      created_by: molecule
+      Name: ansible-role-solr
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  options:
+    v: true
+    sudo: true
+  lint:
+    name: flake8

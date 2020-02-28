@@ -4,11 +4,12 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "*"
+autopep8 = "*"
 
 [packages]
-molecule = "*"
-docker = "*"
-python-vagrant = "*"
+molecule = {extras = ["ec2"],version = "*"}
+boto3 = "*"
 
 [requires]
 python_version = "3.8"
