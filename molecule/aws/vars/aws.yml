@@ -41,3 +41,7 @@ remote_src_copy: true
 # backups
 solr_backups_enabled: true
 solr_backups_bucket: "{{ common_name }}"
+
+dns_zone_id: Z3C00GP5LAWZMF
+dns_zone_name: engineering-dev.internal
+solr_dns_record: solr

@@ -18,3 +18,6 @@
 
 - name: solr backup task
   include_tasks: system/backup.yml
+
+- name: solr dns entry
+  include_tasks: system/dns.yml
