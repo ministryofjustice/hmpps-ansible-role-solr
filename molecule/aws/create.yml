@@ -127,18 +127,34 @@
       register: instance_config_dict
       when: server.changed | bool
 
-    - name: create ebs volume
+    - name: create data ebs volume
       ec2_vol:
         instance: "{{ instance_conf_dict.instance_ids[0] }}"
         volume_size: "20"
         volume_type: "gp2"
-        name: "{{ common_name }}"
+        name: "{{ common_name }}-data"
         device_name: "{{ solr_device_name }}"
         delete_on_termination: yes
         region: "{{ region }}"
         tags:
           application: solr
           service: alfresco
+          type: data
+          solr_ebs_managed: true
+
+    - name: create temp ebs volume
+      ec2_vol:
+        instance: "{{ instance_conf_dict.instance_ids[0] }}"
+        volume_size: "20"
+        volume_type: "gp2"
+        name: "{{ common_name }}-temp"
+        device_name: "{{ solr_temp_device_name }}"
+        delete_on_termination: yes
+        region: "{{ region }}"
+        tags:
+          application: solr
+          service: alfresco
+          type: temp
           solr_ebs_managed: true
 
     - name: Convert instance config dict to a list

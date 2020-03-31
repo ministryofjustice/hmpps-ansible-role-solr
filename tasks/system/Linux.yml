@@ -46,8 +46,17 @@
     - data
     - logs
     - "{{ solr_home }}"
+    - "{{ solr_temp_dir }}"
   loop_control:
     loop_var: solr_create_dirs
+
+- name: Manage temp dir
+  file:
+    path: "{{ solr_base_path }}/{{ solr_temp_dir }}"
+    owner: '{{ solr_user }}'
+    group: '{{ solr_group }}'
+    mode: 0750
+    state: directory
 
 - name: Copy solr home dirs
   copy:
