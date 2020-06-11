@@ -4,7 +4,7 @@
 solr_version: 6.0.0
 solr_use_java_version_8: true
 
-solr_host: '{{ ansible_fqdn }}'
+solr_host: "{{ ansible_fqdn }}"
 
 solr_change_default_password: true
 solr_auth_configure: true
@@ -13,25 +13,25 @@ solr_auth_user: solrserver
 solr_auth_pass: server123
 solr_default_auth_user: solr
 solr_default_auth_pass: SolrRocks
-solr_authentication_opts: '-Dbasicauth={{ solr_auth_user }}:{{ solr_auth_pass }}'
+solr_authentication_opts: "-Dbasicauth={{ solr_auth_user }}:{{ solr_auth_pass }}"
 
-solr_dest_main_path: '{{ default_solr_dest_main_path }}'
-solr_dest_path: '{{ solr_dest_main_path }}/solr-{{ solr_version }}'
+solr_dest_main_path: "{{ default_solr_dest_main_path }}"
+solr_dest_path: "{{ solr_dest_main_path }}/solr-{{ solr_version }}"
 
 solr_insh_default: /etc/default/solr.in.sh
 solr_java_xms: 512m
 solr_java_xmx: 512m
-solr_master_enable_jmx: 'false'
-solr_additional_opts: '-Xss256k'
+solr_master_enable_jmx: "false"
+solr_additional_opts: "-Xss256k"
 solr_user: solr
 solr_group: solr
 solr_port: 8983
 solr_service_name: solr
 solr_base_path: /opt/solr/alfresco-search-services
-solr_home_base: '{{ solr_base_path }}/data'
-solr_home: '{{ solr_home_base }}/solrhome'
+solr_home_base: "{{ solr_base_path }}/data"
+solr_home: "{{ solr_home_base }}/solrhome"
 solr_with_systemd: true
-solr_logs_dir: '{{ solr_base_path }}/logs'
+solr_logs_dir: "{{ solr_base_path }}/logs"
 solr_wait_for_zk: 30
 solr_client_timeout: 15000
 solr_timezone: UTC
@@ -49,9 +49,11 @@ solr_max_processes_limit: 65000
 
 alfresco_host: localhost
 alfresco_port: 8080
-solrcore_properties_file: '{{ solr_home }}/templates/rerank/conf/solrcore.properties'
+solrcore_properties_file: "{{ solr_home }}/templates/rerank/conf/solrcore.properties"
+solr_config_xml_file: "{{ solr_home }}/alfresco/conf/solrconfig.xml"
+archive_solr_config_xml_file: "{{ solr_home }}/archive/conf/solrconfig.xml"
 
-# ebs 
+# ebs
 manage_storage: true
 region: eu-west-2
 solr_volume_name: test-ansible-role-solr
@@ -70,4 +72,3 @@ solr_temp_dir: /tmp/solr
 dns_zone_id: 11111111111
 dns_zone_name: test.com
 solr_dns_record: solr
-

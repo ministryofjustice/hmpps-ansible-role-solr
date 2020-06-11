@@ -1,45 +1,45 @@
 ---
 - name: Install requirements
   package:
-    name: '{{ requirements }}'
+    name: "{{ requirements }}"
     state: present
   register: installed_packages
   until: installed_packages is succeeded
 
 - name: Check that solr group is exist
   group:
-    name: '{{ solr_group }}'
+    name: "{{ solr_group }}"
     state: present
 
 - name: Check that solr user is exist
   user:
-    name: '{{ solr_user }}'
-    group: '{{ solr_group }}'
-    home: '{{ solr_base_path }}'
+    name: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    home: "{{ solr_base_path }}"
     createhome: true
     system: true
     state: present
 
 - name: Set limits
   pam_limits:
-    domain: '{{ solr_user }}'
-    limit_item: '{{ solr_limit.limit_item }}'
-    limit_type: '-'
-    value: '{{ solr_limit.limit_value }}'
+    domain: "{{ solr_user }}"
+    limit_item: "{{ solr_limit.limit_item }}"
+    limit_type: "-"
+    value: "{{ solr_limit.limit_value }}"
   loop:
     - limit_item: nofile
-      limit_value: '{{ solr_open_files_limit }}'
+      limit_value: "{{ solr_open_files_limit }}"
     - limit_item: nproc
-      limit_value: '{{ solr_max_processes_limit }}'
+      limit_value: "{{ solr_max_processes_limit }}"
   loop_control:
     loop_var: solr_limit
   when: solr_set_limits
 
 - name: Add folders
   file:
-    path: '{{ solr_base_path }}/{{ solr_create_dirs }}'
-    owner: '{{ solr_user }}'
-    group: '{{ solr_group }}'
+    path: "{{ solr_base_path }}/{{ solr_create_dirs }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
     mode: 0750
     state: directory
   loop:
@@ -53,8 +53,8 @@
 - name: Manage temp dir
   file:
     path: "{{ solr_base_path }}/{{ solr_temp_dir }}"
-    owner: '{{ solr_user }}'
-    group: '{{ solr_group }}'
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
     mode: 0750
     state: directory
 
@@ -63,8 +63,8 @@
     src: "{{ solr_base_path }}/solrhome"
     dest: "{{ solr_base_path }}/data"
     remote_src: "{{ remote_src_copy }}"
-    owner: '{{ solr_user }}'
-    group: '{{ solr_group }}'
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
     force: no
   notify:
     - restart Solr Linux
@@ -72,9 +72,9 @@
 - name: Adjusting solr java heap memory and other settings
   template:
     src: solr.in.sh.j2
-    dest: '{{ solr_insh_default }}'
-    owner: '{{ solr_user }}'
-    group: '{{ solr_group }}'
+    dest: "{{ solr_insh_default }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
     mode: 0640
   notify:
     - restart Solr Linux
@@ -82,9 +82,29 @@
 - name: Manage solrcore.properties
   template:
     src: solrcore.properties.j2
-    dest: '{{ solrcore_properties_file }}'
-    owner: '{{ solr_user }}'
-    group: '{{ solr_group }}'
+    dest: "{{ solrcore_properties_file }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    mode: 0640
+  notify:
+    - restart Solr Linux
+
+- name: Manage solr config.xml
+  template:
+    src: solrconfig.xml.j2
+    dest: "{{ solr_config_xml_file }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    mode: 0640
+  notify:
+    - restart Solr Linux
+
+- name: Manage archive conf solrconfig.xml
+  template:
+    src: archive_solrconfig.xml.j2
+    dest: "{{ archive_solr_config_xml_file }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
     mode: 0640
   notify:
     - restart Solr Linux
@@ -92,14 +112,14 @@
 - name: Install solr service
   template:
     src: solr.service.j2
-    dest: '/lib/systemd/system/{{ solr_service_name }}.service'
+    dest: "/lib/systemd/system/{{ solr_service_name }}.service"
   notify:
     - restart Solr Linux
 
 - name: Solr service autostart set
   service:
-    name: '{{ solr_service_name }}'
-    enabled: '{{ solr_service_autostart }}'
+    name: "{{ solr_service_name }}"
+    enabled: "{{ solr_service_autostart }}"
 
 - name: Install pip packages
   pip:
