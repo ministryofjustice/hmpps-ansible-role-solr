@@ -89,6 +89,20 @@
   notify:
     - restart Solr Linux
 
+- name: Ensure conf dirs are present
+  file:
+    path: "{{ solr_conf_dirs }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+    mode: 0750
+    state: directory
+  loop:
+    - "{{ solr_home }}/alfresco"
+    - "{{ solr_home }}/alfresco/conf"
+    - "{{ solr_home }}/archive/conf"
+  loop_control:
+    loop_var: solr_conf_dirs
+
 - name: Manage solr config.xml
   template:
     src: solrconfig.xml.j2
