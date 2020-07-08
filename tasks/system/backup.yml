@@ -11,4 +11,4 @@
     name: "solr_backup"
     minute: "30"
     hour: "*/{{ solr_backups_cron_hour }}"
-    job: "sh {{ solr_backups_script_name }} > /dev/null"
+    job: "sh {{ solr_backups_script_name }} solr-backup > /dev/null"
