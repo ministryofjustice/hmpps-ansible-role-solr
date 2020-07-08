@@ -62,7 +62,7 @@ solr_volume_fs_type: xfs
 solr_backups_enabled: false
 solr_backups_bucket: "test"
 solr_backups_script_name: /root/solr_backup.sh
-solr_backups_cron_hour: 4
+solr_backups_cron_hour: 6
 
 # temp
 solr_temp_device_name: /dev/xvdd
