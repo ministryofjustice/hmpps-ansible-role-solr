@@ -68,6 +68,7 @@ solr_backups_cron_hour: 6
 solr_temp_device_name: /dev/xvdd
 solr_temp_volume_name: test-ansible-role-solr-temp
 solr_temp_dir: /tmp/solr
+solr_backup_dir: "{{ solr_temp_dir }}/backups"
 
 dns_zone_id: 11111111111
 dns_zone_name: test.com
