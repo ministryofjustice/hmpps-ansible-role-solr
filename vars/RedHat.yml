@@ -5,7 +5,6 @@ requirements:
   - unzip
   - rsync
   - libselinux-python
-  - java-1.8.0-openjdk
   - lsof
   - jq
 
