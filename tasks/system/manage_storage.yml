@@ -1,13 +1,6 @@
 ---
-
-- name: get instance_id
-  uri:
-    url: http://169.254.169.254/latest/meta-data/instance-id
-    return_content: yes
-  register: instance_data
-
 - name: Gather information about solr volume
-  ec2_vol_facts:
+  ec2_vol_info:
     region: "{{ region }}"
     filters:
       "tag:Name": "{{ solr_volume_name }}"

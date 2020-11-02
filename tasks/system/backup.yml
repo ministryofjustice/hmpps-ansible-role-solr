@@ -1,5 +1,4 @@
 ---
-
 - name: Backup solr data script
   template:
     src: solr_backup.sh.j2

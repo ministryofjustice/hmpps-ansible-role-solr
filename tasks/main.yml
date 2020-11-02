@@ -1,23 +1,34 @@
 ---
 # tasks file for ansible-role-solr
 
+- name: get instance_id
+  uri:
+    url: http://169.254.169.254/latest/meta-data/instance-id
+    return_content: yes
+  register: instance_data
+
+- name: Reconfigure our system time sync
+  include: system/configure_time.yml
+
+- name: Reconfigure our logging services so we audit correctly
+  include: system/configure_auditing.yml
+  when:
+    - manage_auditing
+
 - name: Load a variables
-  include_vars: '{{ ansible_os_family }}.yml'
+  include_vars: "{{ ansible_os_family }}.yml"
 
 - name: manage storage devices
   include_tasks: system/manage_storage.yml
   when: manage_storage
 
 - name: Choose platform based task
-  include_tasks: '{{ platform }}'
+  include_tasks: "{{ platform }}"
   with_first_found:
-    - 'system/{{ ansible_os_family }}.yml'
-    - 'system/not-supported.yml'
+    - "system/{{ ansible_os_family }}.yml"
+    - "system/not-supported.yml"
   loop_control:
     loop_var: platform
 
 - name: solr backup task
   include_tasks: system/backup.yml
-
-- name: solr dns entry
-  include_tasks: system/dns.yml

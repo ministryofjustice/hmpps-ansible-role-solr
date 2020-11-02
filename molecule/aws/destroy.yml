@@ -36,12 +36,6 @@
       retries: 300
       with_items: "{{ server.results }}"
 
-    - name: Delete a bucket and all contents
-      aws_s3:
-        bucket: "{{ common_name }}"
-        mode: delete
-      ignore_errors: yes
-
     # Mandatory configuration for Molecule to function.
 
     - name: Populate instance config

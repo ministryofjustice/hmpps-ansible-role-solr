@@ -20,6 +20,8 @@ def test_mountpoint_present(host):
 
 @pytest.mark.parametrize("svc", [
     ("solr"),
+    ("logstash"),
+    ("chronyd")
 ])
 def test_services_are_enabled(host, svc):
     service = host.service(svc)
@@ -30,6 +32,8 @@ def test_services_are_enabled(host, svc):
 @pytest.mark.parametrize("port", [
     (8983),
     (22),
+    ("5044"),
+    ("9600")
 ])
 def test_service_ports_are_listening(host, port):
     assert host.socket(f"tcp://0.0.0.0:{port}")

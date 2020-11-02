@@ -73,3 +73,5 @@ solr_backup_dir: "{{ solr_temp_dir }}/backups"
 dns_zone_id: 11111111111
 dns_zone_name: test.com
 solr_dns_record: solr
+manage_auditing: true
+elasticsearch_url: "http://127.0.0.1:9200"
