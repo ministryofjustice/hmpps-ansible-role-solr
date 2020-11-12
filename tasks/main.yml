@@ -7,10 +7,10 @@
     return_content: yes
   register: instance_data
 
-- name: Update our system
-  yum:
-    name: "*"
-    state: latest
+# - name: Update our system
+#   yum:
+#     name: "*"
+#     state: latest
 
 - name: Reconfigure our system time sync
   include: system/configure_time.yml
