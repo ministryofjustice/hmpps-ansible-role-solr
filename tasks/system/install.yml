@@ -1,0 +1,64 @@
+- name: Install required solr packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ solr_packages }}"
+
+- name: Ensure group solr exists
+  group:
+    name: "{{ solr_group }}"
+    gid: "{{ solr_gid }}"
+    state: present
+
+- name: Add solr user
+  user:
+    name: "{{ solr_user }}"
+    comment: "{{ solr_user }} service account"
+    uid: "{{ solr_gid }}"
+    group: "{{ solr_group }}"
+    createhome: true
+    system: true
+
+- name: Create required directories for solr
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+  with_items:
+    - "{{ solr_root }}"
+    - "{{ solr_home }}"
+    - "{{ solr_logs }}"
+
+- name: Get our solr zip
+  aws_s3:
+    bucket: "{{ artifact_bucket }}"
+    object: "/alfresco/solr/{{ item }}"
+    dest: "/tmp/{{ item }}"
+    mode: get
+  with_items:
+    - "{{ solr_zip_file }}"
+
+- name: Uncompress solr install
+  unarchive:
+    src: "/tmp/{{ item }}"
+    dest: "{{ solr_root }}"
+    remote_src: true
+  with_items:
+    - "{{ solr_zip_file }}"
+
+- name: Recursively set ownership of solr directories
+  file:
+    path: "{{ solr_root }}"
+    state: directory
+    recurse: yes
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
+
+- name: Clean up solr
+  file:
+    state: absent
+    path: "/tmp/{{ item }}"
+  with_items:
+    - "{{ solr_zip_file }}"
+  ignore_errors: true

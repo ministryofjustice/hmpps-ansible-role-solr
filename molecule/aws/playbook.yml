@@ -3,8 +3,6 @@
   hosts: all
   become: true
   roles:
-    - elasticbeats
-    - logstash
     - ansible-role-solr
   vars_files:
     - vars/aws.yml

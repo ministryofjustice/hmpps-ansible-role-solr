@@ -7,20 +7,25 @@
     return_content: yes
   register: instance_data
 
+- name: Update our system
+  yum:
+    name: "*"
+    state: latest
+
 - name: Reconfigure our system time sync
   include: system/configure_time.yml
 
-- name: Reconfigure our logging services so we audit correctly
-  include: system/configure_auditing.yml
-  when:
-    - manage_auditing
+- name: Install java
+  include: system/jdk.yml
 
 - name: Load a variables
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: manage storage devices
   include_tasks: system/manage_storage.yml
-  when: manage_storage
+
+- name: install solr
+  include_tasks: system/install.yml
 
 - name: Choose platform based task
   include_tasks: "{{ platform }}"
@@ -29,6 +34,3 @@
     - "system/not-supported.yml"
   loop_control:
     loop_var: platform
-
-- name: solr backup task
-  include_tasks: system/backup.yml

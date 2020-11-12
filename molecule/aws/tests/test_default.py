@@ -18,56 +18,30 @@ def test_mountpoint_present(host):
     assert host.mount_point(mount_point).filesystem == "xfs"
 
 
-@pytest.mark.parametrize("svc", [
-    ("solr"),
-    ("logstash"),
-    ("chronyd")
+@pytest.mark.parametrize("pkg", [
+    ("lsof"),
+    ("curl"),
+    ("chrony")
 ])
-def test_services_are_enabled(host, svc):
-    service = host.service(svc)
-    assert service.is_enabled
-    assert service.is_running
+def test_packages_are_installed(host, pkg):
+    package = host.package(pkg)
+    assert package.is_installed
 
 
 @pytest.mark.parametrize("port", [
-    (8983),
-    (22),
-    ("5044"),
-    ("9600")
+    (22)
 ])
 def test_service_ports_are_listening(host, port):
     assert host.socket(f"tcp://0.0.0.0:{port}")
 
 
-@pytest.mark.parametrize("cron_task", [
-    ("solr_backup"),
-])
-def test_solr_backup_cron_is_present(host, cron_task):
-    assert host.ansible("cron", f"name={cron_task}state=present", become=True)
-
-
 @pytest.mark.parametrize("user_id, user_group, user_dir", [
     ("solr", "solr", f"{solr_base_dir}/data/solrhome/alfresco"),
     ("solr", "solr", f"{solr_base_dir}/data/solrhome/archive"),
+    ("root", "root", "/tmp/solr")
 ])
 def test_application_directories_exist(host, user_id, user_group, user_dir):
     f = host.file(user_dir)
     assert f.is_directory
-    assert f.user == user_id
-    assert f.group == user_group
-
-
-@pytest.mark.parametrize("user_id, user_group, file_name", [
-    (
-        "solr",
-        "solr",
-        f"{solr_rerank_conf_dir}/solrcore.properties"
-    ),
-    ("solr", "solr", "/etc/default/solr.in.sh"),
-    ("root", "root", "/root/solr_backup.sh"),
-])
-def test_application_files_exist(host, user_id, user_group, file_name):
-    f = host.file(file_name)
-    assert f.is_file
     assert f.user == user_id
     assert f.group == user_group

@@ -66,28 +66,6 @@
     owner: "{{ solr_user }}"
     group: "{{ solr_group }}"
     force: no
-  notify:
-    - restart Solr Linux
-
-- name: Adjusting solr java heap memory and other settings
-  template:
-    src: solr.in.sh.j2
-    dest: "{{ solr_insh_default }}"
-    owner: "{{ solr_user }}"
-    group: "{{ solr_group }}"
-    mode: 0640
-  notify:
-    - restart Solr Linux
-
-- name: Manage solrcore.properties
-  template:
-    src: solrcore.properties.j2
-    dest: "{{ solrcore_properties_file }}"
-    owner: "{{ solr_user }}"
-    group: "{{ solr_group }}"
-    mode: 0640
-  notify:
-    - restart Solr Linux
 
 - name: Ensure conf dirs are present
   file:
@@ -103,37 +81,15 @@
   loop_control:
     loop_var: solr_conf_dirs
 
-- name: Manage solr config.xml
-  template:
-    src: solrconfig.xml.j2
-    dest: "{{ solr_config_xml_file }}"
-    owner: "{{ solr_user }}"
-    group: "{{ solr_group }}"
-    mode: 0640
-  notify:
-    - restart Solr Linux
-
-- name: Manage archive conf solrconfig.xml
-  template:
-    src: archive_solrconfig.xml.j2
-    dest: "{{ archive_solr_config_xml_file }}"
-    owner: "{{ solr_user }}"
-    group: "{{ solr_group }}"
-    mode: 0640
-  notify:
-    - restart Solr Linux
-
 - name: Install solr service
   template:
     src: solr.service.j2
     dest: "/lib/systemd/system/{{ solr_service_name }}.service"
-  notify:
-    - restart Solr Linux
 
-- name: Solr service autostart set
+- name: Disable solr service startup
   service:
     name: "{{ solr_service_name }}"
-    enabled: "{{ solr_service_autostart }}"
+    enabled: no
 
 - name: Install pip packages
   pip:

@@ -1,11 +1,9 @@
 ---
 common_name: test-ansible-role-solr
-mount_point: "/srv/cache"
-device_name: "/dev/xvdb"
-solr_device_name: /dev/xvdc
+solr_device_name: /dev/xvdb
 solr_volume_name: "{{ common_name }}-data"
 solr_temp_volume_name: "{{ common_name }}-temp"
-solr_temp_device_name: /dev/xvdd
+solr_temp_device_name: /dev/xvdc
 solr_temp_dir: /tmp/solr
 solr_additional_opts: "-Djava.io.tmpdir={{ solr_temp_dir }}"
 logstash_host: "localhost"
@@ -49,3 +47,5 @@ solr_backups_bucket: "{{ common_name }}"
 dns_zone_id: Z3C00GP5LAWZMF
 dns_zone_name: engineering-dev.internal
 solr_dns_record: solr
+
+artifact_bucket: "tf-eu-west-2-hmpps-eng-dev-config-s3bucket"

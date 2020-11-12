@@ -131,7 +131,7 @@
     - name: create data ebs volume
       ec2_vol:
         instance: "{{ instance_conf_dict.instance_ids[0] }}"
-        volume_size: "20"
+        volume_size: "50"
         volume_type: "gp2"
         name: "{{ common_name }}-data"
         device_name: "{{ solr_device_name }}"

@@ -8,7 +8,7 @@ lint:
 platforms:
   - name: instance
     image_owner: 895523100917
-    image_name: "HMPPS Alfresco *"
+    image_name: "HMPPS Base CentOS master *"
     instance_type: t2.medium
     vpc_subnet_id: subnet-043763902fc8ac91c
     instance_profile_name: "tf-eu-west-2-hmpps-eng-dev-jenkins-ec2-slave-role-instance-profile"

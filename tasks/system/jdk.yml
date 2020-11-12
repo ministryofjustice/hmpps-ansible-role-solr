@@ -1,0 +1,17 @@
+---
+- name: Get oracle jdk
+  aws_s3:
+    bucket: "{{ artifact_bucket }}"
+    object: "/alfresco/jdk-8u181-linux-x64.rpm"
+    dest: "/tmp/jdk-8u181-linux-x64.rpm"
+    mode: get
+
+- name: Install oracle java
+  yum:
+    name: /tmp/jdk-8u181-linux-x64.rpm
+    state: present
+
+- name: Clean up
+  file:
+    path: /tmp/jdk-8u181-linux-x64.rpm
+    state: absent

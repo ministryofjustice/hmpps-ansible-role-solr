@@ -35,7 +35,11 @@ solr_logs_dir: "{{ solr_base_path }}/logs"
 solr_wait_for_zk: 30
 solr_client_timeout: 15000
 solr_timezone: UTC
-
+artifact_bucket: ""
+solr_zip_file: alfresco-search-services.zip
+solr_root: /opt/solr
+solr_logs: "{{ solr_root }}/logs"
+solr_gid: 1200
 solr_service_restart: always
 solr_service_start: true
 solr_service_autostart: true
@@ -54,10 +58,8 @@ solr_config_xml_file: "{{ solr_home }}/alfresco/conf/solrconfig.xml"
 archive_solr_config_xml_file: "{{ solr_home }}/archive/conf/solrconfig.xml"
 
 # ebs
-manage_storage: true
 region: eu-west-2
-solr_volume_name: test-ansible-role-solr
-solr_device_name: /dev/xvdc
+solr_device_name: /dev/xvdb
 solr_volume_fs_type: xfs
 solr_backups_enabled: false
 solr_backups_bucket: "test"
@@ -65,7 +67,7 @@ solr_backups_script_name: /root/solr_backup.sh
 solr_backups_cron_hour: 6
 
 # temp
-solr_temp_device_name: /dev/xvdd
+solr_temp_device_name: /dev/xvdc
 solr_temp_volume_name: test-ansible-role-solr-temp
 solr_temp_dir: /tmp/solr
 solr_backup_dir: "{{ solr_temp_dir }}/backups"
@@ -75,3 +77,8 @@ dns_zone_name: test.com
 solr_dns_record: solr
 manage_auditing: true
 elasticsearch_url: "http://127.0.0.1:9200"
+
+solr_packages:
+  - curl
+  - unzip
+  - lsof
