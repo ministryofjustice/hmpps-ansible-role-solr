@@ -11,7 +11,7 @@ platforms:
     image_name: "HMPPS Base CentOS master *"
     instance_type: t2.medium
     vpc_subnet_id: subnet-043763902fc8ac91c
-    instance_profile_name: "tf-eu-west-2-hmpps-eng-dev-jenkins-ec2-slave-role-instance-profile"
+    instance_profile_name: "packer_solr_builder"
     instance_tags:
       destroy: true
       created_by: molecule
