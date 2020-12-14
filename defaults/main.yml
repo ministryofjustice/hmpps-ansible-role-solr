@@ -27,8 +27,9 @@ solr_user: solr
 solr_group: solr
 solr_port: 8983
 solr_service_name: solr
-solr_base_path: /opt/solr/alfresco-search-services
-solr_home_base: "{{ solr_base_path }}/data"
+solr_root: /opt/solr
+solr_base_path: "{{ solr_root }}/alfresco-search-services"
+solr_home_base: "{{ solr_root }}/data"
 solr_home: "{{ solr_home_base }}/solrhome"
 solr_with_systemd: true
 solr_logs_dir: "{{ solr_base_path }}/logs"
@@ -37,7 +38,6 @@ solr_client_timeout: 15000
 solr_timezone: UTC
 artifact_bucket: ""
 solr_zip_file: alfresco-search-services.zip
-solr_root: /opt/solr
 solr_logs: "{{ solr_root }}/logs"
 solr_gid: 1200
 solr_service_restart: always
@@ -82,3 +82,12 @@ solr_packages:
   - curl
   - unzip
   - lsof
+
+requirements:
+  - openssl
+  - python2-pip
+  - unzip
+  - rsync
+  - libselinux-python
+  - lsof
+  - jq

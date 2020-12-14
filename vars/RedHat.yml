@@ -1,11 +1,2 @@
 ---
-requirements:
-  - openssl
-  - python2-pip
-  - unzip
-  - rsync
-  - libselinux-python
-  - lsof
-  - jq
-
 default_solr_dest_main_path: /opt
