@@ -3,6 +3,8 @@
   file:
     state: "directory"
     path: "{{ solr_home_base }}"
+    owner: "{{ solr_user }}"
+    group: "{{ solr_group }}"
 
 - name: Read device information
   parted: device={{ solr_device_name }} unit=MiB
