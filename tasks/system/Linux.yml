@@ -47,6 +47,7 @@
     - logs
     - "{{ solr_home }}"
     - "{{ solr_temp_dir }}"
+    - "{{ solr_temp_dir }}/backups"
   loop_control:
     loop_var: solr_create_dirs
 
