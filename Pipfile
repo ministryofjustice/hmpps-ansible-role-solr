@@ -6,10 +6,15 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 autopep8 = "*"
+py = ">=1.10.0"
+Pygments = ">=2.7.4"
+PyYAML = ">=5.4"
+jinja2 = ">=2.11.3"
+cryptography = ">=3.3.2"
 
 [packages]
 molecule = {extras = ["ec2"],version = "*"}
 boto3 = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.9"
